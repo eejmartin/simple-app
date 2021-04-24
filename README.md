@@ -1,4 +1,5 @@
-# simple-app
+# Simple Angular - NestJs app
+# IN_PROGRESS...
 # instructions to run the project 
 ## 
 ## 1. Add an environment file to the project
