@@ -1,7 +1,6 @@
 # Simple Angular - NestJs app
 # IN_PROGRESS...
 # instructions to run the project 
-## 
 ## 1. Add an environment file to the project
 Add a .env file in the api folder (at the top of your api folder, so nest can find it)  
  - add your own DATABASE_URL in the .env file
