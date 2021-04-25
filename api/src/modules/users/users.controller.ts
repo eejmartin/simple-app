@@ -39,7 +39,7 @@ export class UsersController {
   ): Observable<Pagination<UserDto>> {
     limit = limit > 100 ? 100 : limit;
 
-    if (username === null || username === undefined) {
+    if (!username) {
       return this.usersService.paginate({
         page: Number(page),
         limit: Number(limit),
