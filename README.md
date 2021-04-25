@@ -11,6 +11,7 @@ Example of file:
     DATABASE_URL=<your url>  
     JWT_SECRET=alkshdlkahsdklhaslh35923553jkl24lj234
     
+    
 ##Use /scripts/seeder.sh to add the initial admin user in mongodb
 
 ## Start the Backend in dev Mode after you added the .env file
