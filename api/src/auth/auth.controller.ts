@@ -11,7 +11,6 @@ export class AuthController {
   login(@Body() user: LoginUserDto): Observable<Object> {
     return this.usersService.login(user).pipe(
       map((jwt: string) => {
-        console.log('jwt' + jwt);
         return { access_token: jwt };
       }),
       catchError((err) => throwError(err)),

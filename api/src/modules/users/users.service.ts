@@ -102,7 +102,6 @@ export class UsersService {
         return from(saveUser.save()).pipe(
           map((user: UserDto) => {
             delete user.password;
-            console.log(user);
             return user;
           }),
           catchError((err) => throwError(err)),
@@ -156,7 +155,6 @@ export class UsersService {
   login(user: LoginUserDto): Observable<string> {
     return this.validateUser(user).pipe(
       switchMap((user: UserDto) => {
-        console.log('user ' + user);
         if (user) {
           return this.authService
             .generateJWT(user)

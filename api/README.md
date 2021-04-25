@@ -2,3 +2,4 @@
 `cd api`  
 `npm install`  
 `npm run start:dev`  
+#### Use /scripts/seeder.sh to add the initial admin user in mongodb
