@@ -5,14 +5,13 @@
 Add a .env file in the api folder (at the top of your api folder, so nest can find it)  
  - add your own DATABASE_URL in the .env file
  - add your own JWT_SECRET in the .env file
+ - Use /scripts/seeder.sh to add the initial admin user in mongodb
 
 Example of file: 
 
     DATABASE_URL=<your url>  
     JWT_SECRET=alkshdlkahsdklhaslh35923553jkl24lj234
     
-    
-##Use /scripts/seeder.sh to add the initial admin user in mongodb
 
 ## Start the Backend in dev Mode after you added the .env file
 `cd api`  
