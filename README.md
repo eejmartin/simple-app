@@ -11,6 +11,8 @@ Example of file:
 
     DATABASE_URL=<your url>  
     JWT_SECRETE=alkshdlkahsdklhaslh35923553jkl24lj234
+	JWT_EXPIRES_IN=100000s
+	JWT_EXPIRATION=false
     
 
 ## Start the Backend in dev Mode after you added the .env file

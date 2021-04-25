@@ -18,7 +18,7 @@ import { IsUserGuard } from './guards/isUser.guard';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get('JWT_SECRETE'),
-        signOptions: { expiresIn: '10000s' },
+        signOptions: { expiresIn: configService.get('JWT_EXPIRES_IN') },
       }),
     }),
   ],
