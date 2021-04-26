@@ -24,14 +24,16 @@ export class UsersController {
     // getAllUsers
 
     @Get()
-    @UseGuards(JwtAuthGuard)
+    @HasRoles(ROLE.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     findAll(): Observable<ResponseUsersDto | any> {
         return this.usersService.findAll();
     }
 
     // peginate
     @Get('/paginate')
-    @UseGuards(JwtAuthGuard)
+    @HasRoles(ROLE.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     index(
         @Req() request,
         @Query('page') page = 1,
@@ -59,8 +61,15 @@ export class UsersController {
     }
 
     @Get('/:id')
-    @UseGuards(JwtAuthGuard)
+    @HasRoles(ROLE.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     findOne(@Param() params): Observable<ResponseUserDto> {
+        return this.usersService.findOne(params.id);
+    }
+
+    @Get('/currentUser/:id')
+    @UseGuards(JwtAuthGuard, IsUserGuard)
+    getLoggedUser(@Param() params): Observable<ResponseUserDto> {
         return this.usersService.findOne(params.id);
     }
 
@@ -75,7 +84,8 @@ export class UsersController {
     }
 
     @Put('/:id')
-    @UseGuards(JwtAuthGuard, IsUserGuard)
+    @HasRoles(ROLE.ADMIN)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     updateOne(
         @Param('id') id: string,
         @Body() user: UpdateUserDto
@@ -91,6 +101,15 @@ export class UsersController {
         @Body() user: UpdateUserDto
     ): Observable<UserDto> {
         return this.usersService.updateRoleOfUser(id, user);
+    }
+
+    @Put('/currentUser/:id')
+    @UseGuards(JwtAuthGuard, IsUserGuard)
+    updateCurrentUser(
+        @Param('id') id: string,
+        @Body() user: UpdateUserDto
+    ): Observable<any> {
+        return this.usersService.updateOne(id, user);
     }
 
     @HasRoles(ROLE.ADMIN)
