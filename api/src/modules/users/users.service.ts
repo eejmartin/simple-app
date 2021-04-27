@@ -12,6 +12,8 @@ import {IPaginationOptions, Pagination} from 'nestjs-typeorm-paginate';
 import {LoginUserDto} from '../../dto/user/loginUserDto';
 import {ResponseUserDto, ResponseUsersDto} from "../../dto/user/responseUserDto";
 import {plainToClass} from "class-transformer";
+import {RegisterUserDto} from "../../dto/user/registerUserDto";
+import {ROLE} from "../../enums/roleAuthority.enum";
 
 @Injectable()
 export class UsersService {
@@ -80,10 +82,7 @@ export class UsersService {
             }));
     }
 
-    create(createUserDto
-               :
-               CreateUserDto
-    ):
+    create(createUserDto: CreateUserDto):
         Observable<ResponseUserDto> {
         return this.authService.hashPassword(createUserDto.password).pipe(
             switchMap((passwordHash: string) => {
@@ -101,6 +100,30 @@ export class UsersService {
                     map((user: User) => {
                         const userDoc = {...user['_doc']}
                         return plainToClass(ResponseUserDto, userDoc);
+                    }),
+                    catchError((err) => throwError(err))
+                );
+            })
+        );
+    }
+
+    registerUser(registerUsersDto: RegisterUserDto):
+        Observable<string> {
+        return this.authService.hashPassword(registerUsersDto.password).pipe(
+            switchMap((passwordHash: string) => {
+                const newUser = new UserDto();
+                newUser.userName = registerUsersDto.userName;
+                newUser.firstName = registerUsersDto.firstName;
+                newUser.lastName = registerUsersDto.lastName;
+                newUser.email = registerUsersDto.email;
+                newUser.role = ROLE.STUDENT;
+                newUser.password = passwordHash;
+                newUser.disabled = false;
+                newUser.deleted = false;
+                const saveUser = new this.userModel(newUser);
+                return from(saveUser.save()).pipe(
+                    map((user: User) => {
+                        return 'Registration was accepted!'
                     }),
                     catchError((err) => throwError(err))
                 );

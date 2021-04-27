@@ -15,6 +15,7 @@ import {ResponseUserDto, ResponseUsersDto} from '../../dto/user/responseUserDto'
 import {IUser} from "../../interfaces/user.interface";
 import {plainToClass} from "class-transformer";
 import {User} from "../../schemas/user.schema";
+import {RegisterUserDto} from "../../dto/user/registerUserDto";
 
 @Controller('users')
 export class UsersController {
@@ -117,5 +118,10 @@ export class UsersController {
     @Delete(':id')
     deleteOne(@Param('id') id: string): Observable<any> {
         return this.usersService.deleteOne(id);
+    }
+
+    @Post()
+    registerUser(@Body() registerUser: RegisterUserDto): Observable<string> {
+        return this.usersService.registerUser(registerUser);
     }
 }
