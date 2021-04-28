@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CoreOutletComponent} from "./core-outlet/core-outlet.component";
 import {LoginComponent} from "./templates/login/login.component";
 import {RegisterComponent} from "./templates/register/register.component";
+import {AuthGuard} from "../shared/guards/auth.guard";
 
 const routes: Routes = [
   // {
@@ -16,13 +17,18 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent
-        // canDeactivate()
+        component: LoginComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'register',
-        component: RegisterComponent
-      }
+        component: RegisterComponent,
+        canActivate: [AuthGuard]
+      },
+      // {
+      //   path: '',
+      //   canActivate: [AuthGuard]
+      // }
     ]
     // canLoad: [AuthGuardService],
     // children: [

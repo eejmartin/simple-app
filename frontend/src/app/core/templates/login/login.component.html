@@ -5,17 +5,17 @@
       <mat-card-title>Log in</mat-card-title>
     </mat-card-header>
 
-    <form class="example-form">
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="example-form">
       <mat-card-content>
         <mat-form-field class="example-full-width">
-          <input type="text" matInput placeholder="Username">
+          <input type="text" name="username" ngModel #username required id="username" matInput placeholder="Username">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-          <input type="password" matInput placeholder="Password">
+          <input type="password" name="password" id="password" ngModel #password required matInput placeholder="Password">
         </mat-form-field>
       </mat-card-content>
-      <button mat-raised-button color="primary" class="btn-block">Log in</button>
+      <button type="submit" mat-raised-button color="primary" [disabled]=f.invalid class="btn-block">Log in</button>
     </form>
   </mat-card>
 </div>

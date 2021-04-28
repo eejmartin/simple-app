@@ -1,8 +1,13 @@
 <mat-toolbar color="primary" class="app-header">
   <div><a href="https://github.com/eejmartin/simple-app" target="_blank" class="header-name">Source Code</a></div>
   <span class="nav-tool-items">
-    <a mat-button routerLink="login" routerLinkActive="active">Log in</a>
-    <a mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
+    <a *ngIf="!(isLoggedIn$ | async)" mat-button routerLink="login" routerLinkActive="active">Log in</a>
+    <a *ngIf="!(isLoggedIn$ | async)" mat-button mat-raised-button routerLink="register" routerLinkActive="active">Register</a>
+    <a *ngIf="isLoggedIn$ | async" mat-button mat-raised-button (click)="logOut()">Logout</a>
   </span>
 </mat-toolbar>
+<mat-sidenav-container class="example-container" *ngIf="isLoggedIn$ | async">
+  <mat-sidenav mode="side" opened>Sidenav content</mat-sidenav>
+  <mat-sidenav-content>Main content</mat-sidenav-content>
+</mat-sidenav-container>
 <router-outlet></router-outlet>

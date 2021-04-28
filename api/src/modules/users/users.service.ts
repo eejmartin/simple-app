@@ -73,6 +73,14 @@ export class UsersService {
             }));
     }
 
+    findOneByUsernameWithPassword(username: string): Observable<UserDto> {
+        return from(
+            this.userModel.findOne({userName: username, deleted: false, disabled: false}).exec().then(user => {
+                const userDoc = {...user['_doc']}
+                return plainToClass(UserDto, userDoc);
+            }));
+    }
+
     findByMail(email: string):
         Observable<ResponseUserDto> {
         return from(
@@ -155,7 +163,7 @@ export class UsersService {
     }
 
     validateUser(userValidate: LoginUserDto): Observable<UserDto> {
-        return from(this.findOneByUsername(userValidate.userName)).pipe(
+        return from(this.findOneByUsernameWithPassword(userValidate.userName)).pipe(
             switchMap((user: UserDto) => {
                 if (user) {
                     return this.authService
@@ -178,13 +186,15 @@ export class UsersService {
         );
     }
 
-    login(user: LoginUserDto): Observable<string> {
+    login(user: LoginUserDto): Observable<Object> {
         return this.validateUser(user).pipe(
             switchMap((user: UserDto) => {
                 if (user) {
                     return this.authService
                         .generateJWT(user)
-                        .pipe(map((jwt: string) => jwt));
+                        .pipe(map((jwt: string) => {
+                            return {jwt: jwt, user: plainToClass(ResponseUserDto, user)}
+                        }));
                 } else {
                     return EMPTY.pipe();
                 }
