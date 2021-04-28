@@ -1,5 +1,4 @@
 import {createReducer, on} from "@ngrx/store";
-import {IUser} from '../../shared/interfaces/user.interface'
 import * as AuthActions from "../actions/auth.actions";
 import {User} from "../../shared/models/user";
 
@@ -38,6 +37,14 @@ export const reducer = createReducer(
       isAuthenticated: false,
       error: action.error,
     };
-  })
+  }),
+  on(AuthActions.logOut, (state, action) => {
+    return {
+      ...state,
+      user: new User(),
+      isAuthenticated: false,
+      error: true,
+    };
+  }),
 )
 

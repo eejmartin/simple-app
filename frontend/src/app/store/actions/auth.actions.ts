@@ -7,6 +7,7 @@ export enum AuthActionTypes {
   LOGIN_SUCCESS = '[Auth] Login Success',
   LOGIN_FAILURE = '[Auth] Login Failure',
   LOG_OUT = '[Auth] Login Out',
+  LOAD_USER = '[Auth] Load User'
 }
 
 export const logIn = createAction(
@@ -26,4 +27,8 @@ export const loginFailure = createAction(
 
 export const logOut = createAction(
   AuthActionTypes.LOG_OUT
+)
+
+export const loadUser = createAction(
+  AuthActionTypes.LOAD_USER
 )

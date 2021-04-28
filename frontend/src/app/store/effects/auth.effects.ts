@@ -34,13 +34,28 @@ export class AuthEffects {
   logOut$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.logOut),
-      tap(() => {
-        localStorage.removeItem('currentUser')
-      }),
-      concatMap((action) => {
-          return of(AuthActions.loginFailure({'error': true}))
-        }
+      concatMap((action) =>
+        this.authService.logOut().pipe(map(() => {
+          return AuthActions.logOut();
+        }))
       )
     );
+  })
+
+  loadUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.loadUser),
+      concatMap((action) =>
+        this.authService.loadLocalStorageUser().pipe(map((user) => {
+          if (Object.entries(user).length) {
+            this.router.navigate(['']).finally();
+            return AuthActions.loginSuccess({user: user})
+          } else {
+            this.router.navigate(['login']).finally();
+            return AuthActions.loginFailure({'error': true})
+          }
+        }))
+      )
+    )
   })
 }
