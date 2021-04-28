@@ -120,7 +120,7 @@ export class UsersController {
         return this.usersService.deleteOne(id);
     }
 
-    @Post()
+    @Post('/register')
     registerUser(@Body() registerUser: RegisterUserDto): Observable<string> {
         return this.usersService.registerUser(registerUser);
     }

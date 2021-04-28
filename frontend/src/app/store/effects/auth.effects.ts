@@ -34,7 +34,7 @@ export class AuthEffects {
   logOut$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(AuthActions.logOut),
-      concatMap((action) =>
+      concatMap(() =>
         this.authService.logOut().pipe(map(() => {
           return AuthActions.logOut();
         }))

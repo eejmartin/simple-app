@@ -10,8 +10,11 @@ import {RegisterComponent} from "./templates/register/register.component";
 
 import {StoreModule} from "@ngrx/store";
 import * as fromAuth from '../store/reducers/auth.reducers';
+import * as fromRegister from '../store/reducers/register.reducers';
 import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "../store/effects/auth.effects";
+import {RegisterEffects} from "../store/effects/register.effects";
+import {metaReducers, reducers} from "../store";
 
 /* Angular Material */
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -22,6 +25,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 /* Angular Flex Layout */
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {AuthGuard} from "../shared/guards/auth.guard";
+import {UserService} from "../shared/services/user/user.service";
+
 
 @NgModule({
   declarations: [CoreOutletComponent, LoginComponent, RegisterComponent],
@@ -33,10 +38,10 @@ import {AuthGuard} from "../shared/guards/auth.guard";
     ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
-    StoreModule.forFeature(fromAuth.authFeatureKey, fromAuth.reducer),
-    EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature('coreModule', reducers),
+    EffectsModule.forFeature([AuthEffects, RegisterEffects]),
   ],
-  providers: [AuthGuard]
+  providers: [AuthGuard, UserService]
 })
 export class CoreModule {
 }

@@ -22,8 +22,23 @@ export const reducer = createReducer(
     return {
       ...state,
       user: action.registerUser,
-      isRegister: true,
+      isRegister: false,
       error: null,
+    }
+  }),
+  on(RegisterAction.registrationSuccess, (state, action) => {
+    return {
+      ...state,
+      isRegister: true,
+      user: action.user,
+      error: null,
+    }
+  }),
+  on(RegisterAction.clearRegisterForm, (state, action) => {
+    return {
+      ...state,
+      isRegister: false,
+      user: new User()
     }
   })
 )

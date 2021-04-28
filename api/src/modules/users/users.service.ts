@@ -131,7 +131,7 @@ export class UsersService {
                 const saveUser = new this.userModel(newUser);
                 return from(saveUser.save()).pipe(
                     map((user: User) => {
-                        return 'Registration was accepted!'
+                        return JSON.stringify({data: 'Registration was accepted!'});
                     }),
                     catchError((err) => throwError(err))
                 );

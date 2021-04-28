@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import * as RegisterAction from '../actions/register.actions'
 import {Router} from "@angular/router";
-import {catchError, concatMap, map} from "rxjs/operators";
+import {catchError, concatMap, map, switchMap} from "rxjs/operators";
 import {UserService} from "../../shared/services/user/user.service";
 import * as AuthActions from "../actions/auth.actions";
 import {of} from "rxjs";
@@ -12,7 +12,7 @@ export class RegisterEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private router: Router,
+    private router: Router
   ) {
   }
 
@@ -21,11 +21,8 @@ export class RegisterEffects {
       ofType(RegisterAction.registerUser),
       concatMap((action) =>
         this.userService.register(action.registerUser).pipe(
-          map((user) => {
-            this.router.navigate(['login']).finally();
-            return RegisterAction.registrationSuccess(user);
-          }),
-          catchError((error) => of(AuthActions.loginFailure({error})))
+          switchMap((user) => of(RegisterAction.registrationSuccess(user))),
+          catchError((error) => of(RegisterAction.registrationFailure({error})))
         )
       )
     );
