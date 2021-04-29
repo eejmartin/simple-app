@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
@@ -15,6 +15,10 @@ import {ApiService} from "./shared/services/api/api.service";
 import {metaReducers, reducers} from "./store";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
+import {CookieService} from "ngx-cookie-service";
+import {CookieJwtService} from "./shared/services/auth/cookie-jwt.service";
+import {authInterceptorProviders} from "./shared/interceptors/token.interceptor";
+import {loaderInterceptorProviders} from "./shared/interceptors/loader.interceptor";
 
 
 @NgModule({
@@ -36,7 +40,14 @@ import {EffectsModule} from "@ngrx/effects";
     EffectsModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [AuthService, ApiService],
+  providers: [
+    AuthService,
+    ApiService,
+    CookieService,
+    CookieJwtService,
+    authInterceptorProviders,
+    ...authInterceptorProviders,
+    ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

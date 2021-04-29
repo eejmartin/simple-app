@@ -9,8 +9,6 @@ import {RegisterComponent} from "./templates/register/register.component";
 /* Angular NgRx */
 
 import {StoreModule} from "@ngrx/store";
-import * as fromAuth from '../store/reducers/auth.reducers';
-import * as fromRegister from '../store/reducers/register.reducers';
 import {EffectsModule} from "@ngrx/effects";
 import {AuthEffects} from "../store/effects/auth.effects";
 import {RegisterEffects} from "../store/effects/register.effects";

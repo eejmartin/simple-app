@@ -1,18 +1,15 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import * as RegisterAction from '../actions/register.actions'
-import {Router} from "@angular/router";
-import {catchError, concatMap, map, switchMap} from "rxjs/operators";
+import {catchError, concatMap, switchMap} from "rxjs/operators";
 import {UserService} from "../../shared/services/user/user.service";
-import * as AuthActions from "../actions/auth.actions";
 import {of} from "rxjs";
 
 @Injectable()
 export class RegisterEffects {
   constructor(
     private actions$: Actions,
-    private userService: UserService,
-    private router: Router
+    private userService: UserService
   ) {
   }
 

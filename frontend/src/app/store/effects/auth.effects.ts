@@ -5,6 +5,7 @@ import {AuthService} from "../../shared/services/auth/auth.service";
 import * as AuthActions from "../actions/auth.actions";
 import {catchError, concatMap, map, tap} from "rxjs/operators";
 import {of} from "rxjs";
+import {CookieJwtService} from "../../shared/services/auth/cookie-jwt.service";
 
 @Injectable()
 export class AuthEffects {
@@ -12,6 +13,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
+    private cookieJwtService: CookieJwtService,
     private router: Router,
   ) {
   }
@@ -46,9 +48,10 @@ export class AuthEffects {
     return this.actions$.pipe(
       ofType(AuthActions.loadUser),
       concatMap((action) =>
-        this.authService.loadLocalStorageUser().pipe(map((user) => {
-          if (Object.entries(user).length) {
+        this.cookieJwtService.getItem().pipe(map((token) => {
+          if (token) {
             this.router.navigate(['']).finally();
+            const user = this.authService.loadLocalStorageUser();
             return AuthActions.loginSuccess({user: user})
           } else {
             this.router.navigate(['login']).finally();
