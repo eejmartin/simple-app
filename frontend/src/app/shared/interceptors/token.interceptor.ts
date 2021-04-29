@@ -1,8 +1,6 @@
 import {Injectable} from "@angular/core";
-import {HTTP_INTERCEPTORS, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
+import {  HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {map, switchMap} from "rxjs/operators";
-import * as AuthActions from "../../store/actions/auth.actions";
 import {CookieService} from "ngx-cookie-service";
 
 @Injectable()
@@ -22,7 +20,3 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(req);
   }
 }
-
-export const authInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
-];

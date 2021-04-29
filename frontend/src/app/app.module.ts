@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {RouterModule} from "@angular/router";
 import {FormsModule} from "@angular/forms";
@@ -12,13 +12,12 @@ import {PageNotFoundComponent} from "./shared/components/page-not-found/page-not
 
 import {AuthService} from "./shared/services/auth/auth.service";
 import {ApiService} from "./shared/services/api/api.service";
-import {metaReducers, reducers} from "./store";
+import {effects, metaReducers, reducers} from "./store";
 import {StoreModule} from "@ngrx/store";
 import {EffectsModule} from "@ngrx/effects";
 import {CookieService} from "ngx-cookie-service";
 import {CookieJwtService} from "./shared/services/auth/cookie-jwt.service";
-import {authInterceptorProviders} from "./shared/interceptors/token.interceptor";
-import {loaderInterceptorProviders} from "./shared/interceptors/loader.interceptor";
+import {interceptorProviders} from "./shared/interceptors/interceptors";
 
 
 @NgModule({
@@ -27,17 +26,17 @@ import {loaderInterceptorProviders} from "./shared/interceptors/loader.intercept
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     SharedModule,
     CoreModule,
-    HttpClientModule,
     RouterModule.forRoot([
       {path: '**', component: PageNotFoundComponent}
     ]),
     StoreModule.forRoot(reducers, {
       metaReducers
     }),
-    EffectsModule.forRoot(),
+    EffectsModule.forRoot(effects),
     BrowserAnimationsModule
   ],
   providers: [
@@ -45,9 +44,8 @@ import {loaderInterceptorProviders} from "./shared/interceptors/loader.intercept
     ApiService,
     CookieService,
     CookieJwtService,
-    authInterceptorProviders,
-    ...authInterceptorProviders,
-    ],
+    interceptorProviders
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
