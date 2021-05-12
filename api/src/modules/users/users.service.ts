@@ -1,10 +1,10 @@
-import {Injectable,} from '@nestjs/common';
+import {Injectable, UnauthorizedException,} from '@nestjs/common';
 import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
 import {CreateUserDto} from '../../dto/user/createUserDto';
 import {UpdateUserDto} from '../../dto/user/updateUserDto';
 import {User} from '../../schemas/user.schema';
-import {EMPTY, EmptyError, from, Observable, throwError} from 'rxjs';
+import {from, Observable, throwError} from 'rxjs';
 import {catchError, map, switchMap} from 'rxjs/operators';
 import {AuthService} from '../../auth/services/auth.service';
 import {UserDto} from '../../dto/user/userDto';
@@ -76,8 +76,12 @@ export class UsersService {
     findOneByUsernameWithPassword(username: string): Observable<UserDto> {
         return from(
             this.userModel.findOne({userName: username, deleted: false, disabled: false}).exec().then(user => {
-                const userDoc = {...user['_doc']}
-                return plainToClass(UserDto, userDoc);
+                if (user) {
+                    const userDoc = {...user['_doc']}
+                    return plainToClass(UserDto, userDoc);
+                } else {
+                    return null;
+                }
             }));
     }
 
@@ -109,7 +113,7 @@ export class UsersService {
                         const userDoc = {...user['_doc']}
                         return plainToClass(ResponseUserDto, userDoc);
                     }),
-                    catchError((err) => throwError(err))
+                    catchError((error) => throwError(error))
                 );
             })
         );
@@ -174,12 +178,12 @@ export class UsersService {
                                     const {password, ...result} = user;
                                     return result;
                                 } else {
-                                    throw Error;
+                                    throw new UnauthorizedException();
                                 }
                             })
                         );
                 } else {
-                    throw new EmptyError();
+                    throw new UnauthorizedException();
                 }
             }),
             catchError((err) => throwError(err))
@@ -196,7 +200,7 @@ export class UsersService {
                             return {jwt: jwt, user: plainToClass(ResponseUserDto, user)}
                         }));
                 } else {
-                    return EMPTY.pipe();
+                    return catchError((error) => throwError(error));
                 }
             })
         );
