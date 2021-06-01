@@ -35,7 +35,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-
 const materialModules = [
   CdkTreeModule,
   MatAutocompleteModule,
@@ -68,17 +67,16 @@ const materialModules = [
   MatGridListModule,
   MatRadioModule,
   MatDatepickerModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatDialogModule,
 ];
-
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ModalDialogComponent } from './components/modal/modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [PageNotFoundComponent],
-  imports: [
-    CommonModule,
-    ...materialModules
-  ],
-  exports: [...materialModules]
+  imports: [CommonModule, ...materialModules],
+  exports: [...materialModules, ModalDialogComponent],
+  declarations: [PageNotFoundComponent, ModalDialogComponent],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -50,7 +50,6 @@ export class AuthEffects {
       concatMap((action) =>
         this.cookieJwtService.getItem().pipe(map((token) => {
           if (token) {
-            this.router.navigate(['']).finally();
             const user = this.authService.loadLocalStorageUser();
             return AuthActions.loginSuccess({user: user})
           } else {

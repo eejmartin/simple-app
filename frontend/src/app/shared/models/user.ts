@@ -1,6 +1,7 @@
-import {ROLE} from "../enums/role";
+import { ROLE } from '../enums/role';
+import { IUser } from '../interfaces/user.interface';
 
-export class User {
+export class User implements IUser {
   constructor(
     public _id?: string,
     public userName?: string,
@@ -12,14 +13,9 @@ export class User {
     public disabled?: boolean,
     public role?: ROLE,
     public token?: string
-  ) {
-  }
+  ) {}
 }
 
 export class Credentials {
-  constructor(
-    public userName: string,
-    public password: string
-  ) {
-  }
+  constructor(public userName: string, public password: string) {}
 }

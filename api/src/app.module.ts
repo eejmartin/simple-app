@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { RecipesModule } from './modules/recipes/recipes.module';
 
 @Module({
   imports: [
@@ -13,9 +14,14 @@ import { AuthModule } from './auth/auth.module';
         connection.plugin(require('mongoose-audit'));
         return connection;
       },
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true,
     }),
     AuthModule,
     UsersModule,
+    RecipesModule,
   ],
   controllers: [],
 })

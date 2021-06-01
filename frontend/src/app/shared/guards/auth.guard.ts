@@ -1,36 +1,39 @@
-import {Injectable} from "@angular/core";
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
+  CanActivateChild,
   CanLoad,
   Route,
   Router,
   RouterStateSnapshot,
   UrlSegment,
-  UrlTree
-} from "@angular/router";
-import {Observable, of} from "rxjs";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../store";
-import {authFeatureKey} from "../../store/reducers/auth.reducers";
-import {switchMap} from "rxjs/operators";
+  UrlTree,
+} from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../store';
+import { authFeatureKey } from '../../store/reducers/auth.reducers';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable()
-export class AuthGuard implements CanLoad, CanActivate {
-
-  constructor(
-    private store: Store<AppState>,
-    private router: Router
-  ) {
-  }
+export class AuthGuard implements CanLoad, CanActivate, CanActivateChild {
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   loadUser(): Observable<any> {
-    return this.store.select(state => state[authFeatureKey].isAuthenticated);
+    return this.store.select((state) => state[authFeatureKey].isAuthenticated);
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.loadUser()
-      .pipe(switchMap((isAuth) => {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.loadUser().pipe(
+      switchMap((isAuth) => {
         if ((state.url == '/login' || state.url == '/register') && !isAuth) {
           return of(true);
         }
@@ -39,13 +42,26 @@ export class AuthGuard implements CanLoad, CanActivate {
           return of(isAuth);
         }
         return of(isAuth);
-      }));
+      })
+    );
   }
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.loadUser()
-      .pipe(switchMap((isAuth) => {
+  canLoad(
+    route: Route,
+    segments: UrlSegment[]
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
+    return this.loadUser().pipe(
+      switchMap((isAuth) => {
         return of(isAuth);
-      }));
+      })
+    );
+  }
+
+  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    return this.canActivate(route, state);
   }
 }
