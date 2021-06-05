@@ -41,3 +41,7 @@ lerna-debug.log*
 *.suo
 /api/.vs/VSWorkspaceState.json
 *.sqlite
+/frontend/.vs/VSWorkspaceState.json
+/frontend-angularjs/app/lib
+/frontend-angularjs/node_modules
+/api/.vs/api/config/applicationhost.config
