@@ -13,10 +13,11 @@ angular.module('recipesList').component('recipesList', {
           orderProp: 'name',
         },
         loadData = function () {
-          RecipeFactory.getRecipes().then(function (recipes) {
-            data.recipes = recipes;
-            console.log(data.recipes);
-          });
+          // RecipeFactory.getRecipes().then(function (recipes) {
+          //   data.recipes = recipes;
+          //   console.log(data.recipes);
+          // });
+          data.recipes = RecipeFactory.getRecipesFromSessionStorage();
         },
         init = function () {
           loadData();

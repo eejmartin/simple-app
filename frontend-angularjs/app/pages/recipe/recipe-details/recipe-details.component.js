@@ -52,9 +52,11 @@ angular.module('recipeDetails').component('recipeDetails', {
           console.log(data);
         },
         createRecipe = function (form) {
-          RecipeFactory.createRecipe(data.recipe).then(function (response) {
-            $location.path('/recipes');
-          });
+          // RecipeFactory.createRecipe(data.recipe).then(function (response) {
+          //   $location.path('/recipes');
+          // });
+          RecipeFactory.createRecipesInSessionStorage(data.recipe);
+          $location.path('/recipes');
         },
         addItem = function () {
           data.recipe.ingredients.push(new RecipeService.Ingredients());

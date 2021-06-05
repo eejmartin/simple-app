@@ -1,18 +1,26 @@
 <div class="container-fluid">
     <div class="row">
+        <div class="col-md-8">
+            <span>
+                <a href="#!/recipe">Go to Recipes</a> / Recipe Edit
+            </span>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-offset-2 col-md-6">
             <form name="$ctrl.data.formRecipe"
                 ng-submit="$ctrl.data.formRecipe.$valid && $ctrl.createRecipe($ctrl.data.formRecipe)">
                 <div class="form-group">
                     <label for="recipeName">Recipe Name</label>
-                    <input type="text" class="form-control" id="recipeName" ng-model="name" name="recipeName"
-                        ng-disabled="false" placeholder="Enter name for recipe" ng-required="true">
+                    <input type="text" class="form-control" id="recipeName" ng-model="$ctrl.data.recipe.name"
+                        name="recipeName" ng-disabled="false" placeholder="Enter name for recipe" ng-required="true">
                     <small id="recipeNameHelp" class="form-text text-muted">Required field.</small>
                 </div>
                 <div class="form-group">
                     <label for="recipeDescription">Description</label>
-                    <input type="text" class="form-control" id="recipeDescription" ng-model="description"
-                        name="recipeDescription" placeholder="Enter description for recipe">
+                    <input type="text" class="form-control" id="recipeDescription"
+                        ng-model="$ctrl.data.recipe.description" name="recipeDescription"
+                        placeholder="Enter description for recipe">
                 </div>
 
                 <span>Ingredients</span>

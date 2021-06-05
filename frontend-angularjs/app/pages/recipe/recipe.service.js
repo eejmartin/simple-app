@@ -20,10 +20,24 @@ angular.module('recipe').factory('RecipeFactory', [
           return response.data.recipes;
         });
       },
+      getRecipesFromSessionStorage: function () {
+        return JSON.parse(sessionStorage.getItem('Recipes'));
+      },
       createRecipe: function (recipe) {
         return $http.post(url, recipe).then(function (response) {
           return response.data.recipe;
         });
+      },
+      createRecipesInSessionStorage: function (recipe) {
+        recipe.user = 'Local Session User';
+        let recipes = JSON.parse(sessionStorage.getItem('Recipes'));
+        if (!recipes) {
+          recipes = [];
+          recipes.push(recipe);
+        } else {
+          recipes.push(recipe);
+        }
+        return sessionStorage.setItem('Recipes', JSON.stringify(recipes));
       },
     };
     // return $resource('/recipes', {}, {
